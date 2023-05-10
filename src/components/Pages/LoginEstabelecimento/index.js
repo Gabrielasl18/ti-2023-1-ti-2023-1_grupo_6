@@ -3,15 +3,16 @@ import whiteIcon from '../../../assets/whiteIcon.png';
 import './../Login/style.css';
 import { useState } from 'react';
 import useAuth from '../../../hooks/useAuth';
-
+import { useSelector } from 'react-redux';
+let urlLoja;
 const LoginEstabelecimento = () => {
   const { signUpStore } = useAuth();
   const navigate = useNavigate();
-
+  const lojx = useSelector((state) => state.lojas) ?? [];
   const [cnpj, setCnpj] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
+  
   const handleLogin = () => {
     if(!cnpj || !password ){
       setError("Preencha todos os campos");
@@ -23,8 +24,17 @@ const LoginEstabelecimento = () => {
       setError(res);
       return;
     }
-    
-    navigate("/homeLoja");
+    const lojxComCnpj = lojx.filter(loja => loja.cnpj === cnpj);
+    if (lojxComCnpj.length === 0) {
+      setError("CNPJ não encontrado");
+      return;
+    }
+    const lojxEncontrada = lojxComCnpj[0];
+    urlLoja = lojxEncontrada.url;
+    localStorage.setItem('urlLoja', urlLoja); // define a urlLoja no Local Storage
+    navigate(`/loja/estabelecimento${lojxEncontrada.url}`);
+    console.log('to aquiii');
+
   };
 
   return (
@@ -42,7 +52,7 @@ const LoginEstabelecimento = () => {
                     required
                     value = {cnpj}
                     id="name"
-                    type="email"
+                    type="text"
                     name="user"
                     placeholder="Inserir CNPJ"
                     onChange={(e) => [setCnpj(e.target.value), setError("")]}
@@ -86,5 +96,5 @@ const LoginEstabelecimento = () => {
     </div>  
   );
 }
-
 export default LoginEstabelecimento;
+export { urlLoja };

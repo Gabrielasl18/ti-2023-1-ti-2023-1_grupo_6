@@ -16,6 +16,7 @@ function AdicionarLoja() {
     const [cnpj, setCnpj] = useState('');
     const [img, setImg] = useState('');
     const [image, setImage] = useState('');
+    const [produto, setProduto] = useState('');
     const [descricao, setDescricao] = useState('');
     const [email, setEmail] = useState('');
     const [cep, setCep] = useState('');
@@ -43,36 +44,48 @@ function AdicionarLoja() {
         descricao,
         url,
         password,
+        produto: [{ // define o objeto 'produto'
+        nome: 0,
+        descricao: "ASKDA",
+        preco: "31"
+        }],
         }));
 
-        setNome('');
-        setAnimaisAtendidos('');
-        setContato('');
-        setEmail('');
-        setEndereco('');
-        setCep('');
-        setImg('');
-        setImage('');
-        setDescricao('');
-        setCnpj('');
-        setUrl('');
-        setPassword('');
-    }
+            setNome('');
+            setAnimaisAtendidos('');
+            setContato('');
+            setEmail('');
+            setEndereco('');
+            setCep('');
+            setImg('');
+            setImage('');
+            setDescricao('');
+            setCnpj('');
+            setUrl('');
+            setPassword('');
+            setProduto('');
+        }
 
     const handleSignUp = () => {
         if(!nome || !cnpj || !animaisAtendidos || !email || !password || !contato || !endereco || !cep || !url ){
-          setError("Preencha todos os campos");
-          return;
+            setError("Preencha todos os campos");
+            return;
         } 
-    
-      const res = signUpStore(cnpj, nome, email, animaisAtendidos, cep, endereco, url, contato, password);
+        
+        const res = signUpStore(cnpj, nome, email, animaisAtendidos, cep, endereco, url, contato, password);
         if(res) {
-          setError(res);
-          return;
+            setError(res);
+            return;
         }
         alert("Usuário cadastrado com sucesso!");
         navigate("/");
-      };
+    ;
+    }
+
+    const handleSignAdd = () => {
+        handleSignUp();
+        handleAdicionarLoja();
+    };
 
     return (
         <div className="app-shop-registration">
@@ -139,8 +152,7 @@ function AdicionarLoja() {
                 </div>
             </form>
             </div>
-            <button onClick={handleAdicionarLoja} className="botao-estabelecimento-adicionar btn-shop">Adicionar</button>
-            <button type= "submit" onClick={handleSignUp} className="botao-estabelecimento-adicionar btn-shop">Criar conta</button>
+            <button type= "submit" onClick={handleSignAdd} className="botao-estabelecimento-adicionar btn-shop">Criar conta</button>
         </div>
     );
 }

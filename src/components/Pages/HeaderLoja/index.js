@@ -6,6 +6,7 @@ import './style.css';
 
 const HeaderLoja = () => {
     const navigate = useNavigate();
+    const urlLoja = localStorage.getItem('urlLoja'); // recupera a urlLoja do Local Storage
 
     return (
         <div className="app-menu-web">
@@ -15,7 +16,7 @@ const HeaderLoja = () => {
             <nav className="menu-nav menu-home-profile">
                 <ul className="nav-ul">
                     <li>
-                        <a href="#" onClick={() => navigate('/home')}>
+                        <a href="#" onClick={() => navigate(`/loja/estabelecimento${urlLoja}`)}>
                         Início
                         </a>
                     </li>
@@ -25,7 +26,7 @@ const HeaderLoja = () => {
                         </a>
                     </li>
                     <li>
-                        <a href="#" onClick={() => navigate('/adicionar/produto') }>
+                        <a href="#" onClick={() => navigate(`/adicionar/produto`) }>
                         Produtos
                         </a>
                     </li>
